@@ -22,21 +22,23 @@ jobs:
       run: mvn -B package --file pom.xml
 
 
- # 获取版本号
-    - name: Get Version
-      id: get_version
-      run: echo "::set-output name=VERSION::$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
-
 # 将打包好的 Jar 包 放到 staging 文件夹
     - run: mkdir staging && cp target/*.war staging
 
 
+# 设置 jobs Maven pom 版本环境变量
+    - name: Set Release version env variable
+      run: |
+        echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=version -q -DforceStdout)" >> $GITHUB_ENV
+    - name: "Build & test"
+      run: |
+        echo "done!"
 # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "${{ steps.get_version.outputs.VERSION }}"
+        automatic_release_tag: "${{ env.RELEASE_VERSION }}"
         prerelease: false
-        title: "Release ${{ steps.get_version.outputs.VERSION }}"
+        title: "Release ${{ env.RELEASE_VERSION }}"
         files: |
-          staging/*.war         
+          staging/*.war       
