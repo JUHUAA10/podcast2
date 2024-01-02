@@ -7,8 +7,11 @@ jobs:
 #	配置权限
     permissions: write-all
     runs-on: ubuntu-latest
-    env:
-      VERSION: $(mvn help:evaluate -Dexpression=version -q -DforceStdout)
     steps:
-    - run: echo $VERSION
+      - name: Get Maven Project Version
+        id: get_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=version -q -DforceStdout)
+          echo "Maven Project Version is $VERSION"
+        shell: bash
     
