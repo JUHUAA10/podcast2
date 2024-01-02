@@ -30,13 +30,13 @@ jobs:
 # 将打包好的 Jar 包 放到 staging 文件夹
     - run: mkdir staging && cp target/*.war staging
 
+
 # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        tag_name: ${{ steps.get_version.outputs.VERSION }}
-        release_name: ${{ steps.get_version.outputs.VERSION }}
+        automatic_release_tag: "${{ steps.get_version.outputs.VERSION }}"
         prerelease: false
-        title: ${{ steps.get_version.outputs.VERSION }}
+        title: "Release ${{ steps.get_version.outputs.VERSION }}"
         files: |
-          staging/*.war
+          staging/*.war         
