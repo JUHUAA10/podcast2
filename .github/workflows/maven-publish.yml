@@ -20,7 +20,7 @@ jobs:
       - name: Get Maven Project Version
         id: get_version
         run: |
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
       - run: mkdir staging && cp target/*.war staging
 
@@ -28,8 +28,8 @@ jobs:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          automatic_release_tag: "${{ env.RELEASE_VERSION }}"
           prerelease: false
-          title: "$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+          title: "${{ env.RELEASE_VERSION }}"
           files: |
             staging/*.war
