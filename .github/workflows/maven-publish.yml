@@ -29,8 +29,8 @@ jobs:
     # 设置 jobs Maven pom 版本环境变量
     - name: Set Release version env variable
       run: |
-        echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+        echo "$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $RELEASE_VERSION
     - name: "Build & test"
       run: |
-        echo "done!"
+        echo "$RELEASE_VERSION"
     
