@@ -10,7 +10,7 @@ jobs:
     steps:
 # 下载代码
     - uses: actions/checkout@v3
-    - name: Set up JDK 1
+    - name: Set up JDK 17
 # 安装 JDK
       uses: actions/setup-java@v3
       with:
@@ -26,16 +26,12 @@ jobs:
     - run: mkdir staging && cp target/*.war staging
 
 
- # 获取版本号
-    - name: Get Version
-      id: get_version
-      run: echo "::set-output name=VERSION::$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
 # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "${{ steps.get_version.outputs.VERSION }}"
+        automatic_release_tag: "$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
         prerelease: false
-        title: "${{ steps.get_version.outputs.VERSION }}"
+        title: "$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
         files: |
           staging/*.war       
