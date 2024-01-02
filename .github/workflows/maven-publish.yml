@@ -24,14 +24,15 @@ jobs:
 
 # 将打包好的 Jar 包 放到 staging 文件夹
     - run: mkdir staging && cp target/*.war staging
+    - run: echo $(mvn help:evaluate -Dexpression=version -q -DforceStdout)
 
 
 # 上传文件并发布 Release
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
+        automatic_release_tag: "test1"
         prerelease: false
-        title: "$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
+        title: "test1"
         files: |
           staging/*.war       
