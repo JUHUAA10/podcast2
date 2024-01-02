@@ -33,8 +33,7 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        tag_name: $VERSION
-        release_name: $VERSION
+        automatic_release_tag: $VERSION
         prerelease: false
         title: $VERSION
         files: |
