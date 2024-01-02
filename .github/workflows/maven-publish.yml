@@ -20,7 +20,7 @@ jobs:
     - name: Get Maven Project Version
       id: get_version
       run: |
-          VERSION=$(mvn help:evaluate -Dexpression=version -q -DforceStdout)
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "Maven Project Version is $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
