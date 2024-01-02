@@ -1,5 +1,4 @@
-name: Java CI with Maven
-#手动触发
+name: Build Latest
 on: workflow_dispatch
 
 jobs:
@@ -17,15 +16,29 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+# Maven 打包 
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+#获取maven项目版本
     - name: Get Maven Project Version
       id: get_version
       run: |
-          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "Maven Project Version is $VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-    - name: Use Maven Project Version
-      run: |
-          echo "Using Maven Project Version from environment: $VERSION"     
+# 将打包好的 Jar 包 放到 staging 文件夹
+    - run: mkdir staging && cp target/*.war staging
 
-    
+# 上传文件并发布 Release
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        tag_name: $VERSION
+        release_name: $VERSION
+        prerelease: false
+        title: $VERSION
+        files: |
+          staging/*.war
+
+
+
