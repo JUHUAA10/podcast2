@@ -24,13 +24,16 @@ jobs:
 
 # 将打包好的 Jar 包 放到 staging 文件夹
     - run: mkdir staging && cp target/*.war staging
-    - run: echo $(mvn help:evaluate -Dexpression=version -q -DforceStdout)
+     # 获取版本号
+    - name: Get Version
+      id: get_version
+      run: echo "::set-output name=VERSION::$(mvn help:evaluate -Dexpression=version -q -DforceStdout)"
 
     # 设置 jobs Maven pom 版本环境变量
     - name: Set Release version env variable
       run: |
-        echo "$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $RELEASE_VERSION
+        echo "$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" 
     - name: "Build & test"
       run: |
-        echo "$RELEASE_VERSION"
+        echo ${{ steps.get_version.outputs.VERSION }}
     
