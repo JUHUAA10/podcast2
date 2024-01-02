@@ -26,13 +26,11 @@ jobs:
     - run: mkdir staging && cp target/*.war staging
     - run: echo $(mvn help:evaluate -Dexpression=version -q -DforceStdout)
 
-
-# 上传文件并发布 Release
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "test1"
-        prerelease: false
-        title: "test1"
-        files: |
-          staging/*.war       
+    # 设置 jobs Maven pom 版本环境变量
+    - name: Set Release version env variable
+      run: |
+        echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)"
+    - name: "Build & test"
+      run: |
+        echo "done!"
+    
