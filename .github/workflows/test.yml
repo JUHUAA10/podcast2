@@ -1,4 +1,6 @@
+# 构建测试镜像
 name: Test Images
+# 手动触发
 on: workflow_dispatch
 
 jobs:
@@ -14,7 +16,7 @@ jobs:
           distribution: 'temurin'
           cache: maven
           
-        # git checkout 代码
+      # git checkout 代码
       - name: Checkout
         uses: actions/checkout@v2
         
@@ -35,16 +37,18 @@ jobs:
           # DOCKERHUB_TOKEN: docker hub => Account Setting => Security 创建.
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PWD }}
-          
+
+        # maven 打包  
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      - run: mkdir staging && cp target/*.war staging    
+        # 要将war包移动到其他位置，不然到后面就清空了
+      - run: mkdir staging && cp target/*.war staging
+      
       # 解压podcast2.war
       - name: unzip podcast2.war
         run: unzip staging/podcast2.war -d podcast2
-          
-        
+            
       # 构建 Docker 并推送到 Docker hub
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag yajuhua/podcast2:$(date +test-%Y-%m-%d)
