@@ -1,7 +1,6 @@
 name: Test Images
 on: workflow_dispatch
-env:
-  tag: $(date +test-%Y-%m-%d-%s)
+
 jobs:
   build-Push-Image:
     permissions: write-all
@@ -19,7 +18,7 @@ jobs:
 
       # 解压podcast2.war
       - name: unzip podcast2.war
-        run: unzip target/podcast2.war -d podcast2
+        run: unzip target/podcast2.war -d ./podcast2
 
          # git checkout 代码
       - name: Checkout
@@ -43,8 +42,8 @@ jobs:
         
       # 构建 Docker 并推送到 Docker hub
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag yajuhua/podcast2:${{ env.tag }}
+        run: docker build . --file Dockerfile --tag yajuhua/podcast2:$(date +test-%Y-%m-%d)
         
       # 推送到docker hub
       - name: Push Docker images
-        run: docker push yajuhua/podcast2:${{ env.tag }}
+        run: docker push yajuhua/podcast2:$(date +test-%Y-%m-%d)
