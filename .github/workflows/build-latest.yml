@@ -32,6 +32,8 @@ jobs:
           title: "v${{ env.RELEASE_VERSION }}"
           files: |
             staging/*.war
+      - name: update README.md version
+        run: sed -i 's/release-[0-9]\.[0-9]\.[0-9]/release-${{ env.RELEASE_VERSION }}/' README.md
 
   # 构建Docker Image
   build-And-Push-Docker-Image:
