@@ -26,7 +26,7 @@ jobs:
 
       # 通过 git 命令获取当前 tag 信息, 存入环境变量 APP_VERSION
       - name: Generate App Version
-        run: echo APP_VERSION=$(curl --silent "https://api.github.com/repos/yajuhua/podcast2/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+        run: echo "APP_VERSION=$(curl --silent "https://api.github.com/repos/yajuhua/podcast2/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
       # 登录 docker hub
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -39,4 +39,4 @@ jobs:
 
       # 下载最新release
       - name: Download lastest release
-        run: wget "https://github.com/yajuhua/podcast2/releases/download/${{ env.APP_VERSION }}/podcast2.war"
+        run: wget "https://github.com/yajuhua/podcast2/releases/download/${{ env.APP_VERSION }}/podcast2.war" 
