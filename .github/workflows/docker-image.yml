@@ -4,6 +4,7 @@ name: Build Docker Image
 # push tag 时触发执行
 on: workflow_dispatch
 
+
 jobs:
   build:
     # 在 Ubuntu 上运行
@@ -34,7 +35,7 @@ jobs:
 
       # 下载最新release
       - name: Download lastest release
-        run: wget "https://github.com/yajuhua/podcast2/releases/download/${{ env.APP_VERSION }}/podcast2.war"    
+        run: wget "https://github.com/yajuhua/podcast2/releases/download/${{ env.APP_VERSION }}/podcast2.war" 
       # 构建 Docker 并推送到 Docker hub
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag yajuhua/podcast2:test1
+        run: docker build . --file Dockerfile --tag yajuhua/podcast2:test1        
