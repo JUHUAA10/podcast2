@@ -3,12 +3,12 @@ on: workflow_dispatch
 env:
   tag: $(date +test-%Y-%m-%d-%s)
 jobs:
-  build-Package:
+  build-Push-Image:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 1
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
@@ -17,12 +17,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-  # 构建Docker Image
-  build-And-Push-Docker-Image:
-    # 在 Ubuntu 上运行
-    runs-on: ubuntu-latest
-    steps:
-      # git checkout 代码
+         # git checkout 代码
       - name: Checkout
         uses: actions/checkout@v2
       # 设置 QEMU, 后面 docker buildx 依赖此.
