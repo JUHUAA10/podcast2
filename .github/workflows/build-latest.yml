@@ -29,7 +29,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "${{ env.RELEASE_VERSION }}"
           prerelease: false
-          title: "${{ env.RELEASE_VERSION }}"
+          title: "v${{ env.RELEASE_VERSION }}"
           files: |
             staging/*.war
 
@@ -72,8 +72,8 @@ jobs:
         
       # 构建 Docker 并推送到 Docker hub
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag yajuhua/podcast2:test1 
+        run: docker build . --file Dockerfile --tag yajuhua/podcast2:latest 
         
       # 推送到docker hub
       - name: Push Docker images
-        run: docker push yajuhua/podcast2:test1              
+        run: docker push yajuhua/podcast2:latest              
