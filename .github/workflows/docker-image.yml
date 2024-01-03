@@ -4,13 +4,8 @@ name: Build Docker Image
 # push tag 时触发执行
 on: workflow_dispatch
 
-
-# 定义环境变量, 后面会使用
-# 定义 APP_NAME 用于 docker build-args
-# 定义 DOCKERHUB_REPO 标记 docker hub repo 名称
-
 jobs:
-  main:
+  build:
     # 在 Ubuntu 上运行
     runs-on: ubuntu-latest
     steps:
@@ -39,4 +34,7 @@ jobs:
 
       # 下载最新release
       - name: Download lastest release
-        run: wget "https://github.com/yajuhua/podcast2/releases/download/${{ env.APP_VERSION }}/podcast2.war" 
+        run: wget "https://github.com/yajuhua/podcast2/releases/download/${{ env.APP_VERSION }}/podcast2.war"    
+      # 构建 Docker 并推送到 Docker hub
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag yajuhua/podcast2:test1
