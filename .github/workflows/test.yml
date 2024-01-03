@@ -17,10 +17,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
-      # 复制到根目录
-      - run: cp target/*.war .
-
-
   # 构建Docker Image
   build-And-Push-Docker-Image:
     # 在 Ubuntu 上运行
@@ -48,7 +44,7 @@ jobs:
 
       # 解压podcast2.war
       - name: unzip podcast2.war
-        run: unzip podcast2.war -d podcast2
+        run: unzip target/podcast2.war -d podcast2
         
       # 构建 Docker 并推送到 Docker hub
       - name: Build the Docker image
