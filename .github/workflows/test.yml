@@ -16,9 +16,10 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
 
+      - run: mv target/podcast2.war ./podcast2
       # 解压podcast2.war
       - name: unzip podcast2.war
-        run: unzip target/podcast2.war -d ./podcast2
+        run: unzip podcast2.war -d podcast2
 
          # git checkout 代码
       - name: Checkout
