@@ -44,4 +44,9 @@ jobs:
         
       # 构建 Docker 并推送到 Docker hub
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag yajuhua/podcast2:test1        
+        run: docker build . --file Dockerfile --tag yajuhua/podcast2:test1 
+        
+      # 推送到docker hub
+      - name: Push Docker images
+        run: docker push yajuhua/podcast2:test1
+      
